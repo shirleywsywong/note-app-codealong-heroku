@@ -1,6 +1,6 @@
 const express = require('express');
-const User = require('./userModel');
 const { createUser, findUserByEmail } = require('./userService');
+const { createToken } = require('../../tokens/tokenService');
 
 const router = express.Router();
 
@@ -47,7 +47,7 @@ router.route('/login')
     
     try {
       // does the user exist?
-      const user = await User.findOne({ email });
+      const user = await findUserByEmail(email);
       if (!user) {
         res.status(400).json({ message: 'password and email do not match'});
         return;
@@ -60,11 +60,13 @@ router.route('/login')
         return;
       }
 
-      res.json({ data: { id: user._id } });
+      const token = createToken({ id: user._id });
+
+      res.json({ data: { token } });
     } catch (ex) {
       console.log(ex);
       res.status(500).json({ message: 'internal server error' });
     }
-  })
+  });
 
 module.exports = router;

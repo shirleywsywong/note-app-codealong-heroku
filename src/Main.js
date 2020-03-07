@@ -1,18 +1,18 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import CameraIcon from '@material-ui/icons/Camera';
+import NoteIcon from '@material-ui/icons/Note';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import {
-  BrowserRouter as Router,
   Route,
   Switch,
 } from 'react-router-dom';
 
 import NoteList from './NoteList';
 import Footer from './Footer';
+import NoteForm from './NoteForm';
 
 const useStyles = makeStyles(theme => ({
   icon: {
@@ -41,23 +41,19 @@ export default function Album() {
       <CssBaseline />
       <AppBar position="relative">
         <Toolbar>
-          <CameraIcon className={classes.icon} />
+          <NoteIcon className={classes.icon} />
           <Typography variant="h6" color="inherit" noWrap>
-            Album layout
+            Notes App
           </Typography>
         </Toolbar>
       </AppBar>
       <main>
-        <Router>
-          <Switch>
-            <Route exact path="/" component={NoteList}/>
-            <Route />
-          </Switch>
-        </Router>
+        <Switch>
+          <Route exact path="/" component={NoteList}/>
+          <Route path="/note/create" component={NoteForm} />
+        </Switch>
       </main>
-      {/* Footer */}
       <Footer />
-      {/* End footer */}
     </div>
   );
 }

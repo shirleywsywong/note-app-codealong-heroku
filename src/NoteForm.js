@@ -1,43 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from '@material-ui/core/Container'
 import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
+import Button from '@material-ui/core/Button';
 import { makeStyles, withStyles } from '@material-ui/core/styles'
 
-// const BootstrapInput = withStyles(theme => ({
-//   root: {
-//     'label + &': {
-//       marginTop: theme.spacing(3),
-//     },
-//   },
-//   input: {
-//     borderRadius: 4,
-//     position: 'relative',
-//     backgroundColor: theme.palette.background.paper,
-//     border: '1px solid #ced4da',
-//     fontSize: 16,
-//     padding: '10px 26px 10px 12px',
-//     transition: theme.transitions.create(['border-color', 'box-shadow']),
-//     // Use the system font instead of the default Roboto font.
-//     fontFamily: [
-//       '-apple-system',
-//       'BlinkMacSystemFont',
-//       '"Segoe UI"',
-//       'Roboto',
-//       '"Helvetica Neue"',
-//       'Arial',
-//       'sans-serif',
-//       '"Apple Color Emoji"',
-//       '"Segoe UI Emoji"',
-//       '"Segoe UI Symbol"',
-//     ].join(','),
-//     '&:focus': {
-//       borderRadius: 4,
-//       borderColor: '#80bdff',
-//       boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-//     },
-//   },
-// }))(InputBase)
+import { getToken } from './utils/token';
 
 const useStyles = makeStyles(theme => ({
   content: {
@@ -55,11 +23,37 @@ const useStyles = makeStyles(theme => ({
 
 export default function NoteForm (props) {
   const classes = useStyles()
+  const [ note, updateNote ] = useState('');
+  const [ error, updateError ] = useState(undefined);
+
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+      const token = getToken();
+      const response = await fetch('/api/notes', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ text: note }),
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      props.history.push('/');
+    } catch (err) {
+      updateError(err.message);
+    }
+  }
 
   return (
     <Container className={classes.content} maxWidth='md'>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
+          {error && <Typography color="error">{error}</Typography>}
           <Typography component='h6' variant='h6' align='left' color='textPrimary'>
             Add a Note
           </Typography>
@@ -72,8 +66,16 @@ export default function NoteForm (props) {
             rowsMax='2'
             className={classes.textField}
             margin='normal'
+            value={note}
+            onChange={(e) => {updateNote(e.target.value);}}
           />
         </div>
+        <Button
+          color="primary"
+          type="submit"
+        >
+          Add Note
+        </Button>
       </form>
     </Container>
   )

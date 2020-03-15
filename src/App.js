@@ -13,26 +13,26 @@ import SignUp from './SignUp';
 
 function App() {
   const [ user, updateUser ] = useState(undefined);
-  useEffect(() => {
-    async function getUser() {
-      try {
-        const token = getToken();
-        const response = await fetch('/api/users/me', {
-          headers: {
-            authorization: `Bearer ${token}`,
-          },
-        });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message);
-        }
-
-        updateUser(data.data);
-      } catch (err) {
-        console.log({ err });
+  async function getUser() {
+    try {
+      const token = getToken();
+      const response = await fetch('/api/users/me', {
+        headers: {
+          authorization: `Bearer ${token}`,
+        },
+      });
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message);
       }
-    }
 
+      updateUser(data.data);
+    } catch (err) {
+      console.log({ err });
+    }
+  }
+
+  useEffect(() => {
     getUser();
   }, []);
 
@@ -45,7 +45,7 @@ function App() {
               return <Redirect to="/" />
             }
 
-            return <Login {...props} />
+            return <Login getUser={getUser} {...props} />
           }} />
           <Route exact path="/signup" component={SignUp} />
           <Route path="/" render={(props) => {

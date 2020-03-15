@@ -67,8 +67,7 @@ export default function SignInSide(props) {
       }
 
       setToken(data.data.token);
-      console.log('test');
-      props.history.push('/');
+      props.getUser();
     } catch (err) {
       updateError(err.message);
     }

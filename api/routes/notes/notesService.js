@@ -2,7 +2,9 @@ const Notes = require('./notesModel');
 
 exports.getNotesByUser = async (userID) => {
   try {
-    const notes = await Notes.find({ user: userID });
+    const notes = await Notes
+      .find({ user: userID })
+      .populate({ path: 'user', select: 'firstName lastName' });
     return notes;
   } catch (err) {
     throw err;

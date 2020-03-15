@@ -73,7 +73,7 @@ export default function NoteList(props) {
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {notes.map(note => <NoteCard key={note._id} text={note.text} />)}
+          {notes && notes.map(note => <NoteCard key={note._id} text={note.text} />)}
         </Grid>
       </Container>
     </div>

@@ -47,7 +47,7 @@ export default function NoteList(props) {
   useEffect(() => {
     getNotes();
   }, []);
-  
+  console.log(notes);
   return (
     <div>
       <div className={classes.heroContent}>
@@ -73,7 +73,23 @@ export default function NoteList(props) {
       <Container className={classes.cardGrid} maxWidth="md">
         {/* End hero unit */}
         <Grid container spacing={4}>
-          {notes && notes.map(note => <NoteCard key={note._id} text={note.text} />)}
+          {
+            notes
+            &&
+            notes.map(note => {
+              return (
+                <Grid
+                  item
+                  key={note._id}
+                  onClick={() => { props.history.push(`/note/edit/${note._id}`) }}
+                >
+                  <NoteCard  
+                    text={note.text}
+                    user={note.user}
+                  />
+                </Grid>
+            );
+          })}
         </Grid>
       </Container>
     </div>

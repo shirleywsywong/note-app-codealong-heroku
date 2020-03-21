@@ -6,6 +6,15 @@ In this code along we’re aiming to make a full functional we application which
 - allows a user to sign in
 - allows a user to create a note - allows them to update a note
 
+## Running the project
+
+to run the project locally;
+
+- `npm i` or `yarn i`
+- `npm run start:server` or `yarn run start:server`
+- `npm run start:client` or `yarn run start:client`
+- make sure you have an instance of mongodb running (run `mongod`)
+
 ## Branches
 
 ### Master

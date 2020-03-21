@@ -27,17 +27,15 @@ export default function NoteCard(props) {
   const classes = useStyles();
 
   return (
-     <Grid item key={props.id} xs={12} sm={6} md={4}>
-        <Card className={classes.card}>
-          <CardContent className={classes.cardContent}>
-            <Typography gutterBottom variant="h5" component="h2">
-              {props.text}
-            </Typography>
-            <Typography variant="body1" component="p">
-              {`By ${props.user.firstName} ${props.user.lastName}`}
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
+    <Card className={classes.card}>
+      <CardContent className={classes.cardContent}>
+        <Typography gutterBottom variant="h5" component="h2">
+          {props.text}
+        </Typography>
+        <Typography variant="body1" component="p">
+          {`By ${props.user.firstName} ${props.user.lastName}`}
+        </Typography>
+      </CardContent>
+    </Card>
   )
 }

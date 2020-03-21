@@ -79,6 +79,9 @@ export default function NoteList(props) {
             notes.map(note => {
               return (
                 <Grid
+                  xs={12}
+                  sm={6}
+                  md={4}
                   item
                   key={note._id}
                   onClick={() => { props.history.push(`/note/edit/${note._id}`) }}

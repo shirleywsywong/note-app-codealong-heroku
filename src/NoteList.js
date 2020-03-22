@@ -47,7 +47,7 @@ export default function NoteList(props) {
   useEffect(() => {
     getNotes();
   }, []);
-  console.log(notes);
+
   return (
     <div>
       <div className={classes.heroContent}>

@@ -29,7 +29,6 @@ function App() {
       updateUser(data.data);
     } catch (err) {
       updateUser(undefined);
-      console.log({ err });
     }
   }
 

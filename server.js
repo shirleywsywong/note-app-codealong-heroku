@@ -21,6 +21,7 @@ app.get('*', function(req, res) {
 });
 
 
+console.log(DB_STRING);
 mongoose
   .connect(DB_STRING,
     {

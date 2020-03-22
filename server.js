@@ -5,9 +5,6 @@ const mongoose = require('mongoose');
 const userRouter = require('./api/routes/users/userRoutes');
 const notesRouter = require('./api/routes/notes/notesRoutes');
 
-const DB_STRING = process.env.MONGODB_URI || 'mongodb://localhost:27017/note-app';
-const PORT = process.env.PORT || '8080';
-
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -21,17 +18,15 @@ app.get('*', function(req, res) {
 });
 
 
-console.log(DB_STRING);
-
 mongoose
-  .connect(DB_STRING,
+  .connect('mongodb://localhost:27017/note-app',
     {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     },
   )
   .then(() => {
-    app.listen(PORT, () => {
+    app.listen('8080', () => {
       console.log('server is running on port 8080');
     });
   })

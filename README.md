@@ -19,6 +19,14 @@ to run the project locally;
 
 ### Master
 
+This branch is the final project WITHOUT deployment information. (see branch, `part-5-final`);
+
+### Part-1-starter
+
+This branch is a basic nodeJS server with the starts of the project structure;
+
+empty `userModel`, `userRoutes`, and `userService` files.
+
 ### Part-1-final
 
 This branch has the;

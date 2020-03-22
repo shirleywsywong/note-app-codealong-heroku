@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -35,6 +35,32 @@ const useStyles = makeStyles(theme => ({
 export default function SignUp(props) {
   const classes = useStyles();
 
+  const [firstName, updateFirstName] = useState('');
+  const [lastName, updateLastName] = useState('');
+  const [email, updateEmail] = useState('');
+  const [password, updatePassword] = useState('');
+
+  async function handleSubmit(e) {
+    try {
+      e.preventDefault();
+
+      const response = await fetch('/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ firstName, lastName, email, password }),
+      })
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+      props.history.push('/')
+    } catch(err) {
+      console.error(err.message);
+    }
+  }
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -45,7 +71,7 @@ export default function SignUp(props) {
         <Typography component="h1" variant="h5">
           Sign up
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} onSubmit={handleSubmit} noValidate>
           <Grid container spacing={2}>
             <Grid item xs={12} sm={6}>
               <TextField
@@ -57,6 +83,8 @@ export default function SignUp(props) {
                 id="firstName"
                 label="First Name"
                 autoFocus
+                value={firstName}
+                onChange={({ target }) => {updateFirstName(target.value);}}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -68,6 +96,8 @@ export default function SignUp(props) {
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                value={lastName}
+                onChange={({ target }) => {updateLastName(target.value);}}
               />
             </Grid>
             <Grid item xs={12}>
@@ -79,6 +109,8 @@ export default function SignUp(props) {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                value={email}
+                onChange={({ target }) => {updateEmail(target.value);}}
               />
             </Grid>
             <Grid item xs={12}>
@@ -91,6 +123,8 @@ export default function SignUp(props) {
                 type="password"
                 id="password"
                 autoComplete="current-password"
+                value={password}
+                onChange={({ target }) => {updatePassword(target.value);}}
               />
             </Grid>
             <Grid item xs={12}>
